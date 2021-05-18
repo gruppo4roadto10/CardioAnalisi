@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace CardioLibrary
@@ -70,6 +71,51 @@ namespace CardioLibrary
         {
             double spesaEnergetica = 0.50 * kmpercorsi * pesocorporeo;
             return spesaEnergetica;
+        }
+        public static void RiempiFile(List<int> battiti)
+        {
+            using(StreamWriter w = new StreamWriter("File1.txt"))
+            {
+                Random r = new Random();
+                for(int i = 0; i < battiti.Count; i++)
+                {
+                    int temp = r.Next(10, 111);
+                    w.WriteLine(temp);
+                }
+            }
+        }
+        public static double MediaBattiti(List<double> battiti)
+        {
+            double somma = 0;
+            for(int i = 0; i < battiti.Count; i++)
+            {
+                somma = battiti[i] + somma;
+            }
+            double mediaBattiti = somma / battiti.Count;
+            return mediaBattiti;
+        }
+        public static bool SeiaRiposo(List<double> battiti)
+        {
+            double mediaBattiti = MediaBattiti(battiti);
+            if(mediaBattiti < 59||mediaBattiti > 101)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public static void Variabilità(List<int> battiti, List<int> orario)
+        {
+            int varOra = 0;
+            int varBattiti = 0;
+            for(int i = 0; i < orario.Count; i++)
+            {
+                varOra = orario[i] + 1 - orario[i];
+                varBattiti = battiti[i] + 1 - battiti[i];
+            }
+            Console.WriteLine($"Variabilità ora: {varOra}\n Variabilità battiti:{varBattiti}");
         }
 
     }
